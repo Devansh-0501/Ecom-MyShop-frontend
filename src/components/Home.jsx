@@ -8,7 +8,7 @@ const Home = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("https://ecom-project-backend-y7s9.onrender.com" ,{
+      const response = await axios.get("https://ecom-project-backend-y7s9.onrender.com/api" ,{
           withCredentials: true,
         });
       console.log("Fetched:", response.data.product);
