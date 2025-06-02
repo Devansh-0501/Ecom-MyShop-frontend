@@ -6,9 +6,19 @@ import "../styles/home.css"
 const Home = () => {
   const [products, setProducts] = useState([]);
 
+  const handleLogout = async ()=>{
+    try {
+      const loggedOutUser = await axios.get("https://ecom-project-backend-y7s9.onrender.com/api/logout",{withCredentials:true})
+      console.log(loggedOutUser.data)
+    } catch (error) {
+      res.status(500).json({message:"Logout Failed"})
+      console.log(error,error.message)
+    }
+  }
+
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("https://ecom-project-backend-y7s9.onrender.com/api" ,{
+      const response = await axios.get("https://ecom-project-backend-y7s9.onrender.com/api" ,{},{
           withCredentials: true,
         });
       console.log("Fetched:", response.data.product);
@@ -23,6 +33,7 @@ const Home = () => {
   }, []);
 
   return (
+    <>
     <div className="product-display">
       {products.map((item) => (
         <ProductCard
@@ -34,6 +45,8 @@ const Home = () => {
         />
       ))}
     </div>
+    <button onClick={handleLogout}>logout</button>
+    </>
   );
 };
 
