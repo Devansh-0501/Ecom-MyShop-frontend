@@ -24,11 +24,10 @@ const Login = () => {
     }
 
     try {
-      // Replace with your API call
+     
       console.log("Logging in with:", formData);
       const response = await axios.post("https://ecom-project-backend-y7s9.onrender.com/api/login",formData,{withCredentials:true})
-      // Example API call:
-      // const res = await axios.post("/api/login", formData);
+      
 
       setError(""); // Clear error
         console.log("Login successful:", response.data);
