@@ -31,7 +31,8 @@ const Login = () => {
 
       setError(""); // Clear error
         console.log("Login successful:", response.data);
-       navigate("/")// Redirect to homepage
+        if(response.data.user.role==="admin") navigate("/admin")
+        else navigate("/")// Redirect to homepage
     } catch (err) {
       setError("Invalid email or password");
     }

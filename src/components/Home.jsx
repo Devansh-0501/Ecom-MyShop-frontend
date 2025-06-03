@@ -11,7 +11,7 @@ const Home = () => {
       const loggedOutUser = await axios.get("https://ecom-project-backend-y7s9.onrender.com/api/logout",{withCredentials:true})
       console.log(loggedOutUser.data)
     } catch (error) {
-      res.status(500).json({message:"Logout Failed"})
+     
       console.log(error,error.message)
     }
   }
