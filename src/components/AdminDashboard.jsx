@@ -1,5 +1,5 @@
 import axios from 'axios';
-import "../styles/AdminDashboard.css";
+import "../styles/adminDashboard.css";
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
