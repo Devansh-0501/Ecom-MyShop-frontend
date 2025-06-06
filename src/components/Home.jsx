@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import  { useEffect, useState } from "react";
+
 import ProductCard from "./ProductCard";
 import "../styles/home.css"
+import api from "../services/api";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
 
   const handleLogout = async ()=>{
     try {
-      const loggedOutUser = await axios.get("https://ecom-project-backend-y7s9.onrender.com/api/logout",{withCredentials:true})
+      const loggedOutUser = await api.get("/logout")
       console.log(loggedOutUser.data)
     } catch (error) {
      
@@ -18,9 +19,7 @@ const Home = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("https://ecom-project-backend-y7s9.onrender.com/api" ,{},{
-          withCredentials: true,
-        });
+      const response = await api.get("/");
       console.log("Fetched:", response.data.product);
       setProducts(response.data.product);
     } catch (error) {
@@ -34,10 +33,11 @@ const Home = () => {
 
   return (
     <>
-    <div className="product-display">
+    <div className="home-product-display">
       {products.map((item) => (
         <ProductCard
           key={item._id}
+          id={item._id}
           image={item.image}
           name={item.name}
           description={item.desc}

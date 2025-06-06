@@ -2,6 +2,7 @@ import React, { use, useState } from 'react';
 import axios from 'axios';
 import '../styles/signUp.css';
 import { useNavigate } from 'react-router-dom';
+import api from '../services/api';
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -24,7 +25,7 @@ const SignUp = () => {
     setSuccess('');
 
     try {
-      const response = await axios.post('https://ecom-project-backend-y7s9.onrender.com/api/signUp', formData,{withCredentials:true});
+      const response = await api.post('/signUp', formData);
       setSuccess('User created successfully!');
       navigate("/");
       setFormData({ name: '', email: '', password: '' });

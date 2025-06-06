@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/login.css"
 import { Link } from "react-router-dom";
+import api from "../services/api";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -26,7 +27,7 @@ const Login = () => {
     try {
      
       console.log("Logging in with:", formData);
-      const response = await axios.post("https://ecom-project-backend-y7s9.onrender.com/api/login",formData,{withCredentials:true})
+      const response = await api.post("/login",formData)
       
 
       setError(""); // Clear error
