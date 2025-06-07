@@ -25,7 +25,7 @@ const SignUp = () => {
     setSuccess('');
 
     try {
-      const response = await api.post('/signUp', formData);
+      const response = await api.post('/user/signUp', formData);
       setSuccess('User created successfully!');
       navigate("/");
       setFormData({ name: '', email: '', password: '' });

@@ -9,7 +9,8 @@ const Home = () => {
 
   const handleLogout = async ()=>{
     try {
-      const loggedOutUser = await api.get("/logout")
+      console.log("logout button clicked")
+      const loggedOutUser = await api.get("/user/logout")
       console.log(loggedOutUser.data)
     } catch (error) {
      

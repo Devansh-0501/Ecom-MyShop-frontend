@@ -27,7 +27,7 @@ const Login = () => {
     try {
      
       console.log("Logging in with:", formData);
-      const response = await api.post("/login",formData)
+      const response = await api.post("/user/login",formData)
       
 
       setError(""); // Clear error

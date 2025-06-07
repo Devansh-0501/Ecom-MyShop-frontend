@@ -28,7 +28,7 @@ const AdminDashboard = () => {
 
   const handleLogout = async () => {
     try {
-      const loggedOutUser = await api.get("/logout");
+      const loggedOutUser = await api.get("/user/logout");
       console.log(loggedOutUser.data);
       navigate("/");
     } catch (error) {
@@ -48,11 +48,11 @@ const AdminDashboard = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await api.get("/admin");
-      console.log(response.data);
-      setUsers(response.data.users);
+      const response = await api.get("/admin/allUsers");
+      console.log("hi",response.data);
+      setUsers(response.data.allUsers);
     } catch (error) {
-      console.error("Error fetching users:", error);
+      console.log("Error fetching users:", error);
     }
   };
 
