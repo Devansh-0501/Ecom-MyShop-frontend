@@ -1,12 +1,12 @@
 import  { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import ProductCard from "./ProductCard";
 import "../styles/home.css"
 import api from "../services/api";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
-
+  const navigate = useNavigate();
   const handleLogout = async ()=>{
     try {
       console.log("logout button clicked")
@@ -14,7 +14,8 @@ const Home = () => {
       console.log(loggedOutUser.data)
     } catch (error) {
      
-      console.log(error,error.message)
+      console.log(error.response?.data?.message)
+      navigate("/login");
     }
   }
 
@@ -24,7 +25,7 @@ const Home = () => {
       console.log("Fetched:", response.data.product);
       setProducts(response.data.product);
     } catch (error) {
-      console.error("Error fetching products:", error);
+      console.error("Error fetching products:", error.response.data.message);
     }
   };
 
