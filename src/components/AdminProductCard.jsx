@@ -1,5 +1,5 @@
 
-import "../styles/AdminProductCard.css"
+import "../styles/adminProductCard.css"
 
 const AdminProductCard = ({name,description,price,image}) => {
   return (
