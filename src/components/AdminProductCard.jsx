@@ -1,4 +1,4 @@
-import React from 'react'
+
 import "../styles/AdminProductCard.css"
 
 const AdminProductCard = ({name,description,price,image}) => {
