@@ -1,9 +1,10 @@
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../services/api"; 
 import "../styles/productDetail.css"; 
 
 const ProductDetail = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [product, setProduct] = useState({});
 
@@ -13,7 +14,9 @@ const ProductDetail = () => {
         const res = await api.get(`/${id}`);
         setProduct(res.data.product); 
       } catch (err) {
-        console.error("Error loading product:", err);
+        console.error("Error loading product:", err.response.data.message)
+        alert(err.response.data.message)
+        navigate("/login");
       }
     };
 

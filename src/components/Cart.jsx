@@ -2,111 +2,104 @@ import "../styles/cart.css";
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import ProductCard from "../components/ProductCard";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
+  const navigate = useNavigate();
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
   const fetchCart = async () => {
     try {
       const res = await api.get("/user/cart");
+      console.log(res.data.cart)
       setCart(res.data.cart);
     } catch (error) {
       console.log(error.response?.data?.message || "Error fetching cart");
+      navigate("/login");
     }
   };
 
-  const calculateTotalPrice = () => {
-    const sum = cart.reduce((acc, item) => {
-      return acc + item.quantity * item.productId.price;
-    }, 0);
-    setTotalPrice(sum);
-  };
+ const changeQuantity = async (temp, id) => {
+  try {
+    const res = await api.post(`/user/cart`, {
+      productId: id,
+      decreament: temp === "decrease",
+    });
 
-  const changeQuantity = async (temp, id) => {
-    if (temp === "increase") {
-      try {
-        const res = await api.post(`user/cart`, {
-          productId: id,
-          decreament: false,
-        });
-        console.log(res.data);
-      } catch (error) {
-        console.log(error.response?.data?.message || error.message);
-      }
-    } else {
-      try {
-        const resp = await api.post(`user/cart`, {
-          productId: id,
-          decreament: true,
-        });
-        console.log(resp.data);
-      } catch (error) {}
-    }
-    fetchCart();
-  };
+    console.log(res.data)
+    setCart(res.data.cart)
+  } catch (error) {
+    console.log(error.response?.data?.message || error.message);
+  }
+};
+
 
   const handleClearCart = async () => {
     try {
-      const res = api.get(`/user/cart/clear`);
+      const res = await api.get(`/user/cart/clear`);
       console.log(res.data);
-      // setCart([]);
+      fetchCart();
     } catch (error) {
       console.log(error.response.data.message);
     }
   };
 
-  // useEffect(() => {
-
-  // }, []);
-
   useEffect(() => {
     fetchCart();
-    if (cart.length) {
-      calculateTotalPrice();
-    }
+  }, []);
+
+  useEffect(() => {
+    const sum = cart.reduce((acc, item) => {
+      return acc + item.quantity * item.productId.price;
+    }, 0);
+    setTotalPrice(sum);
   }, [cart]);
+
+  // ✅ Precompute once here
+  const cartItemsWithSubtotal = cart.map(item => {
+    const product = item.productId;
+    const subtotal = product.price * item.quantity;
+    return { itemId: item._id, product, quantity: item.quantity, subtotal };
+  });
 
   return (
     <div className="cart">
       <div className="cart-left">
-        {cart.map((item) => {
-          const products = item.productId;
-          return (
-            <div key={item._id} className="cart-display">
-              <ProductCard
-                id={products._id}
-                image={products.image}
-                name={products.name}
-                description={products.desc}
-                price={products.price}
-              />
-              <div className="quantity">
-                <button
-                  onClick={() => changeQuantity("increase", products._id)}
-                >
-                  +
-                </button>
-
-                <h1>Quantity: {item.quantity}</h1>
-
-                <button
-                  onClick={() => changeQuantity("decrease", products._id)}
-                >
-                  -
-                </button>
-              </div>
+        {cartItemsWithSubtotal.map(({ itemId, product, quantity }) => (
+          <div key={itemId} className="cart-display">
+            <ProductCard
+              id={product._id}
+              image={product.image}
+              name={product.name}
+              description={product.desc}
+              price={product.price}
+            />
+            <div className="quantity">
+             <button onClick={() => changeQuantity("decrease", product._id)}>-</button>
+                <h1>Quantity: {quantity}</h1>
+              <button onClick={() => changeQuantity("increase", product._id)}>+</button>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
+
       <div className="cart-right">
-        <p>
-          Total Price: <span>{totalPrice}</span>
-        </p>
+        <h2>Cart Checkout</h2>
+        <div className="cart-checkout">
+          <ul>
+            {cartItemsWithSubtotal.map(({ product, quantity, subtotal, itemId }) => (
+              <li key={itemId}>
+                <p>{product.name}: ₹{product.price} X {quantity} = <span>₹{subtotal}</span></p>
+              </li>
+            ))}
+          </ul>
+          <p>Total Price: <span>₹{totalPrice}</span></p>
+        </div>
+
         <div className="card-right-buttons">
-        <button onClick={handleClearCart}>clear cart</button>
-        <button >Buy Now</button>
+          <button onClick={handleClearCart}>Clear Cart</button>
+          <button>Buy Now</button>
         </div>
       </div>
     </div>

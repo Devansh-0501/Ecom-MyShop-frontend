@@ -8,6 +8,7 @@ import ProductDetail from "./components/ProductDetail";
 import Cart from "./components/Cart";
 
 const App = () => {
+  
   return (
 
     

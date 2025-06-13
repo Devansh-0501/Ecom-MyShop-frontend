@@ -1,8 +1,9 @@
 import "../styles/adminDashboard.css";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import ProductCard from "./ProductCard";
+
 import api from "../services/api";
+import AdminProductCard from "./AdminProductCard";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -69,7 +70,7 @@ const AdminDashboard = () => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setProductData((prev) => ({ ...prev, [name]: value }));
-    console.log(productData);
+    
   };
 
   const submitHandler = async (e) => {
@@ -150,7 +151,7 @@ const AdminDashboard = () => {
                   >
                     Delete Product
                   </button>
-                  <ProductCard
+                  <AdminProductCard
                     key={item._id}
                     image={item.image}
                     name={item.name}
