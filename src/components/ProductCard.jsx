@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/productCard.css";
 import api from "../services/api";
 
-const ProductCard = ({ id, image, name, price }) => {
+const ProductCard = ({ id, image, name, price,category }) => {
   const navigate = useNavigate();
 
   const handleClickBuyNow = () => {
@@ -29,8 +29,10 @@ const ProductCard = ({ id, image, name, price }) => {
       <img src={image} alt={name} />
       <div className="product-info">
         <h2>{name}</h2>
+        
         <span>₹{price}</span>
       </div>
+      <h2>Category:{category}</h2>
       <div className="product-footer">
         <button onClick={handleAddtoCart}>Add to Cart</button>
         <button onClick={handleClickBuyNow}>Buy Now</button>

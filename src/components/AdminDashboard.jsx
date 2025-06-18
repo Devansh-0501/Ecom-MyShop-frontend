@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 
 import api from "../services/api";
 import AdminProductCard from "./AdminProductCard";
+import Navbar from "./Navbar";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const AdminDashboard = () => {
     price: "",
     image: "",
     desc: "",
+    category: ""
   });
 
   const [products, setProducts] = useState([]);
@@ -85,6 +87,7 @@ const AdminDashboard = () => {
         price: "",
         image: "",
         desc: "",
+        category: ""
       });
       fetchProducts();
     } catch (error) {
@@ -99,6 +102,7 @@ const AdminDashboard = () => {
 
   return (
     <>
+    <Navbar/>
       <div className="admin-dashboard">
         <h2 className="dashboard-title">Admin Dashboard</h2>
 
@@ -134,6 +138,13 @@ const AdminDashboard = () => {
                 placeholder="Description"
                 name="desc"
               />
+              <input
+                type="text"
+                onChange={handleChange}
+                value={productData.category}
+                placeholder="Category"
+                name="category"
+              />
               <button type="submit">Add</button>
               {/* <input type="text" value={name} placeholder="Enter the name of the product" name="name" /> */}
             </form>
@@ -157,6 +168,7 @@ const AdminDashboard = () => {
                     name={item.name}
                     description={item.desc}
                     price={item.price}
+                    category={item.category}
                   />
                 </div>
               ))}
